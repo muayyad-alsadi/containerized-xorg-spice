@@ -1,0 +1,41 @@
+version: '2'
+services:
+  desktop:
+    image: containerized-xorg-spice
+    tmpfs:
+    - /tmp
+    - /var/run
+    - /run
+    # you don't need to expose this if you want to use html5
+    ports:
+    - 5900:5900
+  web:
+    read_only: true
+    image: containerized-xorg-spice
+    entrypoint: ["python3", "-m", "http.server", "8080"]
+    command: []
+    user: app
+    working_dir: /usr/share/spice-html5/
+    tmpfs:
+    - /tmp/
+    - /var/run/
+    - /run/
+    ports:
+    - 8080:8080
+  spice-html5:
+    read_only: true
+    image: containerized-xorg-spice
+    entrypoint: ["websockify", "5959", "desktop:5900"]
+    command: []
+    user: app
+    working_dir: /usr/share/spice-html5/
+    tmpfs:
+    - /tmp/
+    - /var/run/
+    - /run/
+    ports:
+    - 5959:5959
+    depends_on:
+    - desktop
+    links:
+    - desktop
