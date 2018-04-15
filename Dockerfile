@@ -9,8 +9,13 @@ RUN useradd app && \
     chown app:app /home/app/.config/openbox/autostart.d/
 
 COPY spiceqxl.xorg.conf /etc/X11/
-COPY --chown=app:app autostart.sh /home/app/.config/openbox/
-COPY --chown=app:app xterm.sh /home/app/.config/openbox/autostart.d/
+# new syntax
+#COPY --chown=app:app autostart.sh /home/app/.config/openbox/
+#COPY --chown=app:app xterm.sh /home/app/.config/openbox/autostart.d/
+# old syntax
+COPY autostart.sh /home/app/.config/openbox/
+COPY xterm.sh /home/app/.config/openbox/autostart.d/
+RUN chown app:app -R /home/app/.config/openbox/
 
 EXPOSE 5900
 
