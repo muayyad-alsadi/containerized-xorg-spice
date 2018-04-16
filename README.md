@@ -20,6 +20,8 @@ Can be used to provide
 
 ## Using SPICE clients
 
+We have published docker image on docker hub you can see it [here](https://hub.docker.com/r/alsadi/containerized-xorg-spice/).
+
 You can use any remote desktop client that support spice protocol.
 
 ![remote-desktop](remote-desktop.png)
@@ -45,10 +47,22 @@ We have included HTML5 client, so you can run the entire stack of
 - static files serving the HTML5 client
 - `websockify` to tunnel SPICE into `websocket`
 
-you can do this using one single command
+you can do this using one the following commands
 
 ```
+git clone https://github.com/muayyad-alsadi/containerized-xorg-spice.git
+cd containerized-xorg-spice
 docker-compose up
+```
+
+Then open your browser on port 8080 like this
+
+![eclipse](eclipse.png)
+
+you can enter it to install packages like this
+
+```
+docker exec -ti -u root containerizedxorgspice_desktop_1 /bin/bash
 ```
 
 ## Customization
@@ -57,4 +71,10 @@ This image uses a regular user `app`, place any executable file in `/home/app/.c
 which will be executed in background during start up.
 
 currently it only launches `xterm`
+
+the password is `123456`, which is set in `/etc/X11/spiceqxl.xorg.conf`
+
+```
+    Option "SpicePassword" "123456"
+```
 
